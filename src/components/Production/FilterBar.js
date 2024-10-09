@@ -1,11 +1,10 @@
 
 import React from 'react'; // Ensure React is imported
 import { FaList, FaTools, FaSearch, FaCheck, FaTimes } from 'react-icons/fa';
-
 const FilterBar = ({ selectedFilter, onFilterChange }) => {
   const statuses = [
     { label: 'All', icon: <FaList />, color: 'text-gray-500' },
-    { label: 'Yet To Start', count: '', status: 'Yet To Start', icon: <FaTools />, subStatusId: 1, color: 'text-yellow-500' },
+    { label: 'Yet To Start', count: '', status: 'Yet To Start', icon: <FaTools />, subStatusId: 1, color: 'text-orange-500' }, // Changed to orange
     { label: 'In Progress', count: '', status: 'In Progress', icon: <FaSearch />, subStatusId: 2, color: 'text-blue-500' },
     { label: 'Completed', count: '', status: 'Completed', icon: <FaCheck />, subStatusId: 3, color: 'text-green-500' },
     { label: 'Cancelled', count: '', status: 'Cancelled', icon: <FaTimes />, subStatusId: 4, color: 'text-red-500' },

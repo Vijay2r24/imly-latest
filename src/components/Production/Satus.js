@@ -6,11 +6,11 @@ const Statuses = ({ status }) => {
     status === "Dispatch"
       ? "bg-teal-100 text-teal-800 ring-teal-700/30" // Teal background and text for Dispatch
       : status === "Completed"
-        ? "bg-green-100 text-green-800 ring-green-700/30"
+        ? "bg-green-400 text-white  ring-green-700/30"
         : status === "Yet To Start"
-          ? "bg-yellow-200 text-yellow-800 ring-yellow-700/30" // Updated for Orange
+          ? "bg-orange-400 text-white ring-yellow-700/30" // Updated for Orange
           : status === "In Progress"
-            ? "bg-blue-200 text-blue-900 ring-blue-600/30" // Lighter blue background, darker blue text
+            ? "bg-blue-400 text-white ring-blue-600/30" // Lighter blue background, darker blue text
 
             : status === "Cancelled"
               ? "bg-red-100 text-red-800 ring-red-700/30" // Red background and text for Cancelled
