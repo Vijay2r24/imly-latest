@@ -26,6 +26,9 @@ module.exports = {
         'custom-maroon':"#fafafa",
         'custom-lightbrown': '#C07A50',
       },
+      fontSize: {
+        'xxs': '0.625rem', // 10px
+      }
     },
   },
   plugins: [],

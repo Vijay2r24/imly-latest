@@ -52,7 +52,7 @@ export default function Orders() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [searchName, setSearchName] = useState("");
@@ -98,7 +98,7 @@ export default function Orders() {
         console.log("Total Count:", totalCount);
 
         // Update totalCount in state
-        setTotalCount(totalCount);
+        setTotalOrders(totalCount);
 
         // Handle the orders if needed
         const orders = response?.orders || [];
@@ -170,22 +170,48 @@ export default function Orders() {
   };
   const fetchOrders = async () => {
     setLoading(true);
+    console.log("Fetching orders..."); // Start fetching
+
     try {
+      // Log the parameters being sent to the API
+      console.log("API Parameters:", { page, rowsPerPage, searchName });
+
       const { orders, totalCount } = await getAllOrders(
         page,
         rowsPerPage,
         searchName,
-        selectedStore.StoreID,
-        value.startDate,
-        value.endDate
       );
 
+      // Log the result from the API
+      console.log("Fetched orders:", orders);
+      console.log("Total count from API:", totalCount);
+
+      // Check the selectedFilter.subStatusId and log it
+      console.log("Selected Filter subStatusId:", selectedFilter.subStatusId);
+
+      // Filter orders based on subStatusId and log the filtered results
+      const filteredOrders = selectedFilter.subStatusId
+        ? orders.filter(order => order.SubStatusId === selectedFilter.subStatusId)
+        : orders;
+
+      console.log("Filtered orders:", filteredOrders);
+
+      // Log the filter change handling
+      console.log("Filter change handled");
+
+      // Log final results before setting state
       setProducts(orders);
-      setTotalOrders(totalCount);
+      console.log("Products set:", filteredOrders);
+
+      setTotalOrders(filteredOrders.length);
+      console.log("Total orders set:", filteredOrders.length);
+
     } catch (error) {
-      console.error("Failed to fetch orders", error);
+      // Log the error if fetching fails
+      console.error("Failed to fetch orders:", error);
     } finally {
       setLoading(false);
+      console.log("Loading state set to false");
     }
   };
   useEffect(() => {
@@ -208,12 +234,14 @@ export default function Orders() {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
+      // Call API to update sub-order status
       const response = await axios.post('https://imly-b2y.onrender.com/api/orders/updateSubOrderStatus', {
         OrderID: details.OrderID,
         SubStatusId: details.SubStatusId,
       });
 
       console.log('API Response:', response.data);
+
       // Show success toast notification
       toast.success("Order status updated successfully!", {
         position: "top-right",
@@ -225,14 +253,18 @@ export default function Orders() {
         progress: undefined,
       });
 
-      console.log('Updated Orders:');
+      // Close dialog after success
       setOpenDialog(false);
+
+      fetchOrders()// Call fetchOrders to retrieve updated data setSelectedFilter({ label: selectedFilter.label, subStatusId: selectedFilter.subStatusId, status: selectedFilter.status });   
     } catch (error) {
       console.error('API Call Error:', error);
       // Handle errors as needed
     }
+
     console.log('Updated Details:', details);
-    fetchOrders();
+
+    // Reset loading state after 2 seconds
     setTimeout(() => {
       setIsLoading(false);
     }, 2000);
@@ -277,12 +309,12 @@ export default function Orders() {
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 pt-4 ml-10 lg:ml-72 w-auto">
+    <div className="px-4 sm:px-6 lg:px-8 pt-4 mt-5 lg:ml-72 w-auto">
       <ToastContainer />
       <div>
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-2 text-custom-heading">Production Orders</h2>
+            <h2 className="heading">Production Orders</h2>
           </div>
         </div>
         <div className="flex flex-wrap">
@@ -462,7 +494,7 @@ export default function Orders() {
                     <TablePagination
                       rowsPerPageOptions={[10, 20, 25]}
                       colSpan={6}
-                      count={totalCount}
+                      count={totalOrders}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       onPageChange={handleChangePage}
@@ -492,25 +524,25 @@ export default function Orders() {
             Edit Production Details
           </DialogTitle>
           <DialogContent>
-          <TextField
-    margin="dense"
-    name="OrderNumber"
-    label="Order Number"
-    type="text"
-    fullWidth
-    variant="outlined"
-    value={details.OrderNumber || ''} // Display and allow editing of 'OrderNumber'
-    onChange={(e) => handleOrderNumberChange(e)} // Handle change in OrderNumber
-    sx={{ mb: 2 }}
-    helperText="Enter the order number"
-  />
+            <TextField
+              margin="dense"
+              name="OrderNumber"
+              label="Order Number"
+              type="text"
+              fullWidth
+              variant="outlined"
+              value={details.OrderNumber || ''} // Display and allow editing of 'OrderNumber'
+              onChange={(e) => handleOrderNumberChange(e)} // Handle change in OrderNumber
+              sx={{ mb: 2 }}
+              helperText="Enter the order number"
+            />
 
-  {/* Hidden input to pass OrderID to the backend */}
-  <input
-    type="hidden"
-    name="OrderID"
-    value={details.OrderID || ''} // Submit 'OrderID' without displaying it
-  />
+            {/* Hidden input to pass OrderID to the backend */}
+            <input
+              type="hidden"
+              name="OrderID"
+              value={details.OrderID || ''} // Submit 'OrderID' without displaying it
+            />
             <FormControl fullWidth variant="outlined" margin="dense">
               <InputLabel id="substatus-id-label">Production Status</InputLabel>
               <Select

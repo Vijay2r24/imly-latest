@@ -31,27 +31,24 @@ import logo from "../../assests/Images/imly-logo-new.jpg";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
 import { CogIcon } from "@heroicons/react/20/solid";
 
-const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
-
-  // { name: 'Create Orders', href: '/AddOrders', icon: UserIcon },
-
-  { name: "Orders", href: "/Orders", icon: ClipboardDocumentListIcon },
-  { name: "Payments", href: "/Payments", icon: CreditCardIcon },
-  { name: "Services", href: "/Returns", icon: DocumentMagnifyingGlassIcon },
-
-  { name: "Customers", href: "/Customer", icon: UsersIcon },
-  { name: "Reports", href: "/Reports", icon: FolderIcon },
-
-  // { name: 'Add Products', href: '/products', icon: FolderIcon },
-  { name: "Users", href: "/user", icon: UsersIcon },
-  { name: "User Roles", href: "/RoleUser", icon: UsersIcon },
-  { name: "Production", href: "/production", icon: CogIcon },
-
-  // { name: 'Products', href: '/product', icon: FolderIcon },
-  { name: "Stores", href: "/Stores", icon: ShoppingBagIcon },
-  // { name: 'Createorder', href: '/createorder', icon: ShoppingBagIcon },
-];
+const navigation = {
+  Service: [
+    { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
+    { name: "Orders", href: "/Orders", icon: ClipboardDocumentListIcon },
+    { name: "Payments", href: "/Payments", icon: CreditCardIcon },
+    { name: "Services", href: "/Returns", icon: DocumentMagnifyingGlassIcon },
+    { name: "Customers", href: "/Customer", icon: UsersIcon },
+  ],
+  Reporting: [
+    { name: "Reports", href: "/Reports", icon: FolderIcon },
+    { name: "Users", href: "/user", icon: UsersIcon },
+    { name: "User Roles", href: "/RoleUser", icon: UsersIcon },
+  ],
+  Inventory: [
+    { name: "Production", href: "/production", icon: CogIcon },
+    { name: "Stores", href: "/Stores", icon: ShoppingBagIcon },
+  ],
+};
 
 const userNavigation = [
   { name: "Your profile", href: "#" },
@@ -130,42 +127,44 @@ export default function Navigation() {
                 </div>
                 <nav className="flex flex-1 flex-col">
                   <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                    <li>
-                      <ul role="list" className="-mx-2 space-y-1">
-                        {navigation.map((item) => (
-                          <li key={item.name}>
-                            <a
-                              href={item.href}
-                              onClick={() => setSidebarOpen(false)} // Close sidebar on click
-                              className={classNames(
-                                location.pathname === item.href
-                                  ? "bg-custom-darkblue text-white"
-                                  : "text-gray-900 hover:bg-custom-lightblue hover:text-white",
-                                "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                              )}
-                            >
-                              <item.icon
-                                aria-hidden="true"
-                                color="black"
+                    {Object.entries(navigation).map(([key, items]) => (
+                      <li key={key}>
+                        <h3 className="text-sm font-semibold text-gray-700">{key.replace(/([A-Z])/g, ' $1')}</h3>
+                        <ul role="list" className="-mx-2 space-y-1">
+                          {items.map((item) => (
+                            <li key={item.name}>
+                              <a
+                                href={item.href}
+                                onClick={() => setSidebarOpen(false)}
                                 className={classNames(
-                                  location.pathname === item.href
-                                    ? "text-white"
-                                    : "text-indigo-200 group-hover:text-gray-200",
-                                  "h-6 w-6 shrink-0"
+                                  location.pathname.startsWith(item.href)
+                                    ? "bg-custom-darkblue text-white"
+                                    : "text-gray-900 hover:bg-custom-lightblue hover:text-white",
+                                  "group flex gap-x-3 rounded-md text-sm font-semibold p-2"
                                 )}
-                              />
-                              {item.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </li>
+                              >
+                                <item.icon
+                                  aria-hidden="true"
+                                  className={classNames(
+                                    location.pathname.startsWith(item.href)
+                                      ? "text-white"
+                                      : "text-indigo-200 group-hover:text-gray-200",
+                                    "h-6 w-6 shrink-0"
+                                  )}
+                                />
+                                {item.name}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
                     <li className="mt-auto">
                       <button
                         onClick={handleSettingsClick}
-                        className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading text-white hover:bg-indigo-700 hover:text-white"
+                        className="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading text-white hover:bg-indigo-700 hover:text-white"
                       >
-                        <Cog6ToothIcon
+                        <CogIcon
                           aria-hidden="true"
                           className="h-6 w-6 shrink-0 text-white group-hover:text-white"
                         />
@@ -178,51 +177,77 @@ export default function Navigation() {
             </DialogPanel>
           </div>
         </Dialog>
+        import React from 'react'; // Ensure React is imported
 
-        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-            <div className="flex h-16 shrink-0 items-center">
-              <img alt="Your Company" src={logo} className="h-20 w-40 mt-4" />
+        <div className="hidden lg:fixed lg:inset-y-0 lg:z-30 lg:flex lg:w-56 lg:flex-col shadow-md border border-gray-200">
+          <div
+            className="flex grow flex-col bg-white px-4 pb-4"
+            style={{
+              overflowY: 'auto',
+              scrollbarWidth: 'none', // For Firefox
+              msOverflowStyle: 'none', // For Internet Explorer and Edge
+            }}
+          >
+            <style>
+              {`
+        .flex.grow.flex-col::-webkit-scrollbar {
+          display: none; /* Safari and Chrome */
+        }
+      `}
+            </style>
+            <div className="flex h-16 mt-10 shrink-0 items-center">
+              <img alt="Your Company" src={logo} className="h-18 w-32 mt-4" /> {/* Reduced logo size */}
             </div>
             <nav className="flex flex-1 flex-col">
-              <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <li>
-                  <ul role="list" className="-mx-2 space-y-1">
-                    {navigation.map((item) => (
-                      <li key={item.name}>
-                        <a
-                          href={item.href}
-                          onClick={() => setSidebarOpen(false)} // Close sidebar on click
-                          className={classNames(
-                            location.pathname.startsWith(item.href)
-                              ? "bg-custom-darkblue  text-white"
-                              : " text-white-900 hover:bg-custom-lightblue hover:text-gray-700",
-                            "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                          )}
-                        >
-                          <item.icon
-                            aria-hidden="true"
-                            className={classNames(
-                              location.pathname.startsWith(item.href)
-                                ? "text-white"
-                                : "group-hover:text-gray-700",
-                              "h-6 w-6 shrink-0 text-black" // Base color set to black
-                            )}
-                          />{" "}
-                          {item.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
+              <ul role="list" className="flex flex-1 flex-col">
+                {Object.entries(navigation).map(([key, items], index) => (
+                  <>
+                    {/* Increased font size for the key name */}
+                    <li key={key}>
+                      <h3 className="text-sm font-bold text-gray-700 mb-2"> {/* Increased bottom margin */}
+                        {key.replace(/([A-Z])/g, ' $1')}
+                      </h3>
+                      <hr className="my-1 border-gray-300" />
+                      <ul role="list" className="space-y-1">
+                        {items.map((item) => (
+                          <li key={item.name}>
+                            <a
+                              href={item.href}
+                              onClick={() => setSidebarOpen(false)}
+                              className={classNames(
+                                location.pathname.startsWith(item.href)
+                                  ? 'bg-gray-200'
+                                  : 'text-gray-900 hover:bg-custom-lightblue hover:text-gray-700',
+                                'group flex items-center p-2 text-xs font-medium' // Reduced font size and padding
+                              )}
+                              style={{ whiteSpace: 'nowrap' }} // Prevent text wrapping
+                            >
+                              <item.icon
+                                aria-hidden="true"
+                                className={classNames(
+                                  location.pathname.startsWith(item.href)
+                                    ? 'text-gray-700'
+                                    : 'group-hover:text-gray-700',
+                                  'h-4 w-4 shrink-0 text-black mr-2' // Reduced icon size and added spacing
+                                )}
+                              />
+                              {item.name}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                    {/* Add <hr> with small margin */}
+                  </>
+                ))}
                 <li className="mt-auto">
                   <button
                     onClick={handleSettingsClick}
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-900 hover:bg-custom-lightblue hover:text-gray-700"
+                    className="group flex items-center p-2 text-xs font-medium text-gray-900 hover:bg-custom-lightblue hover:text-gray-700"
                   >
-                    <Cog6ToothIcon
+                    <CogIcon
                       aria-hidden="true"
-                      className="h-6 w-6 shrink-0  text-gray-700 group-hover:text-gray-700"
+                      className="h-4 w-4 shrink-0 text-gray-700 mr-2" // Reduced icon size and spacing
                     />
                     Settings
                   </button>
@@ -231,72 +256,64 @@ export default function Navigation() {
             </nav>
           </div>
         </div>
+        <div className="lg:pl-100">
+          <div className="fixed top-0 left-0 right-0 z-40 flex h-12 w-full items-center gap-x-4 border-b border-gray-200 px-2 shadow-sm sm:gap-x-4 sm:px-4 lg:px-6" style={{ backgroundColor: '#950ca5' }}>
 
-        <div className="lg:pl-72">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+              className="-m-1.5 p-1.5 text-gray-700 lg:hidden"
             >
               <span className="sr-only">Open sidebar</span>
-              <Bars3Icon aria-hidden="true" className="h-6 w-6" />
+              <Bars3Icon aria-hidden="true" className="h-5 w-5" />
             </button>
 
-            <div
-              aria-hidden="true"
-              className="h-6 w-px bg-gray-900/10 lg:hidden"
-            />
+            <div aria-hidden="true" className="h-5 w-px bg-gray-900/10 lg:hidden" />
 
-            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-              <form action="#" method="GET" className="relative flex flex-1">
+            <div className="flex flex-1 ml-28 justify-center items-center gap-x-3 lg:gap-x-4">
+              <form action="#" method="GET" className="relative w-1/4 flex mx-auto">
                 <label htmlFor="search-field" className="sr-only">
                   Search
                 </label>
                 <MagnifyingGlassIcon
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
+                  className="pointer-events-none absolute inset-y-0 left-0 h-full w-4 text-gray-400"
                 />
                 <input
                   id="search-field"
                   name="search"
                   type="search"
                   placeholder="Search..."
-                  className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                  className="block h-8 w-full rounded-md border border-gray-300 py-2 pl-10 pr-3 text-gray-900 placeholder:text-gray-400 sm:text-sm"
                 />
               </form>
-              <div className="flex items-center gap-x-4 lg:gap-x-6">
+              <div className="flex items-center gap-x-3 lg:gap-x-4">
                 <button
                   type="button"
-                  className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+                  className="-m-1.5 p-1.5 text-white hover:text-gray-500"
                 >
                   <span className="sr-only">View notifications</span>
-                  <BellIcon aria-hidden="true" className="h-6 w-6" />
+                  <BellIcon aria-hidden="true" className="h-5 w-5" />
                 </button>
-
-                <div
-                  aria-hidden="true"
-                  className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
-                />
-
+                <div aria-hidden="true" className="hidden lg:block lg:h-5 lg:w-px lg:bg-white" />
                 <Menu as="div" className="relative">
-                  <MenuButton className="-m-1.5 flex items-center p-1.5">
+                  <MenuButton className="-m-1 flex items-center p-1">
                     <span className="sr-only">Open user menu</span>
                     <img
                       alt=""
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      className="h-8 w-8 rounded-full bg-gray-50"
+                      className="h-6 w-6 rounded-full bg-gray-50"
                     />
                     <span className="hidden lg:flex lg:items-center">
                       <span
                         aria-hidden="true"
-                        className="ml-4 text-sm font-semibold leading-6 text-gray-900"
+                        className="ml-3 text-sm font-semibold leading-6 text-white"
                       >
                         Tom Cook
                       </span>
                       <ChevronDownIcon
                         aria-hidden="true"
-                        className="ml-2 h-5 w-5 text-gray-400"
+                        className="ml-2 h-4 w-4 text-white"
                       />
                     </span>
                   </MenuButton>
@@ -309,9 +326,7 @@ export default function Navigation() {
                         <a
                           href={item.href}
                           className="block px-3 py-1 text-sm leading-6 text-gray-900 data-[focus]:bg-gray-50"
-                          onClick={
-                            item.name === "Sign out" ? handleSignOut : undefined
-                          } // Handle sign out
+                          onClick={item.name === "Sign out" ? handleSignOut : undefined}
                         >
                           {item.name}
                         </a>
@@ -321,10 +336,11 @@ export default function Navigation() {
                 </Menu>
               </div>
             </div>
+
           </div>
 
           <main className="py-0">
-            <div className="px-4 sm:px-6 lg:px-8"></div>
+            <div className="px-2 sm:px-4 lg:px-6"></div>
           </main>
         </div>
       </div>
