@@ -220,7 +220,7 @@ function Payment() {
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 pt-4 sm:ml-10 lg:ml-72 w-auto">
+    <div className="px-4 sm:px-6 lg:px-8 pt-4 sm:ml-10 lg:ml-52 w-auto">
       <ToastContainer />
       {isLoading && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-gray-700">

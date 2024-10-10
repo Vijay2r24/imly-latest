@@ -349,7 +349,7 @@ const displayUsers = searchName || selectedStore ? filteredUsers : users;
   
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 pt-4 sm:ml-10 lg:ml-72 w-auto">
+    <div className="main-container">
       <div className="mt-6 bg-white p-6 rounded-lg shadow-md">
         <div className="flex flex-col w-full">
        

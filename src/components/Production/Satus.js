@@ -7,7 +7,7 @@ const Statuses = ({ status }) => {
       ? "bg-teal-100 text-teal-800 ring-teal-700/30" // Teal background and text for Dispatch
       : status === "Completed"
         ? "bg-green-400 text-white  ring-green-700/30"
-        : status === "Yet To Start"
+        : status === "Yet to Start"
           ? "bg-orange-400 text-white ring-yellow-700/30" // Updated for Orange
           : status === "In Progress"
             ? "bg-blue-400 text-white ring-blue-600/30" // Lighter blue background, darker blue text

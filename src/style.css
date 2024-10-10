@@ -3,7 +3,7 @@
 .main-container {
   /* @apply px-4 sm:px-6 lg:px-8 pt-4 sm:ml-10 lg:ml-72 w-auto mt-6 bg-white p-6 rounded-lg shadow-md; */
 
-  @apply px-4 sm:px-6 lg:px-8 pt-4 sm:ml-10 lg:ml-72 w-auto mt-6 p-6 rounded-lg;
+  @apply px-4 sm:px-6 lg:px-8 pt-4 sm:ml-10 lg:ml-52 w-auto mt-10 p-6 rounded-lg;
 }
 
 .body-container {

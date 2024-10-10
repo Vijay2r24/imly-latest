@@ -115,7 +115,7 @@ export default function Orders() {
     { label: 'In Progress', count: '', status: 'InProgress', subStatusId: 2 },
     { label: 'Completed', count: '', status: 'Completed', subStatusId: 3 },
     { label: 'Cancelled', count: '', status: 'Cancelled', subStatusId: 4 },
-    { label: 'Yet To Start', count: '', status: 'YetToStart', subStatusId: 1 },
+    { label: 'Yet to Start', count: '', status: 'YetToStart', subStatusId: 1 },
   ];
   const getAllOrders = async (
     pageNum,
@@ -309,7 +309,7 @@ export default function Orders() {
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 pt-4 mt-5 lg:ml-52 w-auto">
+    <div className="main-container">
       <ToastContainer />
       <div>
         <div className="sm:flex sm:items-center">
@@ -434,10 +434,11 @@ export default function Orders() {
                         </StyledTableCell>
 
                         <StyledTableCell align="left" className="text-xs">
-                          <div className="text-[10px] whitespace-nowrap">
+                          <div className="text-[14px] whitespace-nowrap">
                             <span className="text-gray-500">Name: </span>
                             <strong>{product.CustomerName || "N/A"}</strong>
                           </div>
+
 
                           <div className="mt-1">
                             <span className="text-gray-500 text-xs">Phone: </span>
@@ -553,7 +554,7 @@ export default function Orders() {
                 label="Production Status"
               >
                 <MenuItem value="" disabled>Select Production Status</MenuItem>
-                <MenuItem value="1">Yet To Start</MenuItem>
+                <MenuItem value="1">Yet to Start</MenuItem>
                 <MenuItem value="2">In Progress</MenuItem>
                 <MenuItem value="3">Completed</MenuItem>
                 <MenuItem value="4">Cancelled</MenuItem>

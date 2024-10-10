@@ -148,7 +148,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="p-4 ml-10 lg:ml-72 mt-10 sm:p-6 bg-gray-100">
+    <div className="main-container">
       {/* Dashboard Header */}
       <div className="flex justify-end items-center space-x-4">
         <div className="flex flex-col items-end">
