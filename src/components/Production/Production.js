@@ -309,7 +309,7 @@ export default function Orders() {
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 pt-4 mt-5 lg:ml-72 w-auto">
+    <div className="px-4 sm:px-6 lg:px-8 pt-4 mt-5 lg:ml-52 w-auto">
       <ToastContainer />
       <div>
         <div className="sm:flex sm:items-center">

@@ -13,8 +13,8 @@ const Statuses = ({ status }) => {
             ? "bg-blue-400 text-white ring-blue-600/30" // Lighter blue background, darker blue text
 
             : status === "Cancelled"
-              ? "bg-red-100 text-red-800 ring-red-700/30" // Red background and text for Cancelled
-              : "bg-gray-100 text-gray-800 ring-gray-700/30"; // Default color for any undefined status
+              ? "bg-red-400 text-white ring-red-700/30" // Red background and text for Cancelled
+              : "bg-gray-400 text-gray-800 ring-gray-700/30"; // Default color for any undefined status
 
   return (
     <span
